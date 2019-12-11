@@ -1,0 +1,1 @@
+start cmd.exe /D "D:\web\ODAR\" /k "node ReminderScheduler.js" 

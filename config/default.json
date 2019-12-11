@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://nitishkalra:google12@odar-sc9lq.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "abcdefghijklmnopqrstuvwxyz"
+}
