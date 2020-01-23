@@ -1,40 +1,62 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 const connectDB = require('./config/db');
 connectDB();
 const Reminder = require('./models/Reminder');
+const dateFormat = () => {
+	var d1 = new Date();
+	var d =
+		d1.getFullYear() +
+		'-' +
+		(d1.getMonth() + 1 < 10 ? '0' : '') +
+		(d1.getMonth() + 1) +
+		'-' +
+		(d1.getDate() < 10 ? '0' : '') +
+		d1.getDate() +
+		' ' +
+		(d1.getHours() < 10 ? '0' : '') +
+		d1.getHours() +
+		':' +
+		(d1.getMinutes() < 10 ? '0' : '') +
+		d1.getMinutes();
+	return d;
+};
 getReminders = async () => {
-    try{
-        var d1 = new Date();
-        var d2 = new Date(d1.getFullYear(),d1.getMonth(),d1.getDate(),d1.getHours(),d1.getMinutes());
-        console.log(d2);
-        let reminders = await Reminder.find({date: d2});
-        // console.log(reminders);
-        reminders.forEach( async (reminder)=>{
-            sendmail(reminder.email,reminder.text);
-        });
-    } catch(err){
-        console.error("Error");
-    }
-}
+	try {
+		// var d1 = new Date();
+		// var d2 = new Date(d1.getFullYear(),d1.getMonth(),d1.getDate(),d1.getHours(),d1.getMinutes());
+		// var d = d1.getFullYear()+'-'+d1.getMonth()+'-'+d1.getDate()+'-'+d1.getHours()-1+'-'+d1.getMinutes();
+		// console.log(d);
+
+		let reminders = await Reminder.find({ date: dateFormat() });
+		// console.log(reminders);
+		reminders.forEach(async reminder => {
+			sendmail(reminder.email, reminder.text);
+		});
+	} catch (err) {
+		console.error('Error');
+	}
+};
 let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: "nitishkalra1998@gmail.com",
-        pass: "20020809me"
-    }
+	service: 'gmail',
+	auth: {
+		user: 'nitishkalra1998@gmail.com',
+		pass: '20020809me'
+	}
 });
-sendmail = (id,text) =>{
-    
-    transporter.sendMail({
-        from: "nitishkalra1998@gmail.com",
-        to: id,
-        subject: "A Reminder For You",
-        text: text
-    },function(err,info){
-        if(err) console.error(err);
-        else console.log("Sent Successfully to " + id);
-    });
-}
+sendmail = (id, text) => {
+	transporter.sendMail(
+		{
+			from: 'nitishkalra1998@gmail.com',
+			to: id,
+			subject: 'A Reminder For You',
+			text: text
+		},
+		function(err, info) {
+			if (err) console.error(err);
+			else console.log('Sent Successfully to ' + id);
+		}
+	);
+};
 getReminders();
 // var nodemailer = require('nodemailer');
 // const Reminder = require('./Reminder');
@@ -44,7 +66,7 @@ getReminders();
 //     service: 'gmail',
 //     auth:{
 //         user: 'nitishkalra1998@gmail.com',
-//         pass: '20020809me' 
+//         pass: '20020809me'
 //     }
 // });
 
@@ -70,9 +92,3 @@ getReminders();
 //     }
 // }
 // getReminders();
-
-
-
-
-
-
