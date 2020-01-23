@@ -1,0 +1,32 @@
+.loginCard {
+	position: absolute;
+	left: 63%;
+	top: 52%;
+	/* width: 30%; */
+	/* height: 500px; */
+}
+.loginImage {
+	width: 100%;
+}
+.loginPageContainer {
+	position: relative;
+}
+.registerForm {
+	position: absolute;
+	left: 60%;
+	top: 40%;
+}
+.menubar {
+	background-color: black;
+	padding-bottom: 250%;
+}
+.centertext {
+	text-align: center;
+}
+.paddingTop {
+	margin-top: 5%;
+}
+p {
+	padding: 0px;
+	margin: 0px;
+}
