@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import NoteContext from '../../context/notes/noteContext';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import EditModal from '../notes/EditModal';
 import '../../app.css';
+toast.configure();
 const NoteItem = ({ notes }) => {
 	const [show, setShow] = useState(false);
 	const { _id, heading, content, date, rating } = notes;
@@ -11,6 +13,7 @@ const NoteItem = ({ notes }) => {
 	const { deleteNote, setCurrent, clearCurrent } = noteContext;
 	const onDelete = () => {
 		deleteNote(_id);
+		toast('Note Deleted !');
 		clearCurrent();
 	};
 	const OnEditClick = () => {

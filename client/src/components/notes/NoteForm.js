@@ -1,7 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
+
 import NoteContext from '../../context/notes/noteContext';
 import { Form, Button, Col, Row } from 'react-bootstrap';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 const NoteForm = ({ edit, onHide }) => {
 	const noteContext = useContext(NoteContext);
 	const { addNote, updateNote, current, clearCurrent } = noteContext;
@@ -29,10 +32,12 @@ const NoteForm = ({ edit, onHide }) => {
 		e.preventDefault();
 		if (current && edit) {
 			updateNote(note);
+			toast('Note Updated');
 			onHide();
 			//hide hone se phle edit note vla button add note mei chng ho ra hai.
 		} else {
 			addNote(note);
+			toast('Note Added!');
 		}
 		setNote({
 			heading: '',
@@ -46,103 +51,107 @@ const NoteForm = ({ edit, onHide }) => {
 	return (
 		<div>
 			<Form onSubmit={onSubmit}>
-				<h2 className='centertext'>Add a New Note</h2>
-				<Form.Group>
-					<Form.Label>Heading</Form.Label>
-					<Form.Control
-						type='text'
-						name='heading'
-						value={heading}
-						onChange={onChange}
-						placeholder='enter heading'
-					/>
-				</Form.Group>
-				<Form.Group>
-					<Form.Label>Content</Form.Label>
-					<Form.Control
-						as='textarea'
-						rows='10'
-						name='content'
-						value={content}
-						onChange={onChange}
-						placeholder='How was your day ???'
-					/>
-				</Form.Group>
-				<Form.Group>
-					<Form.Row>
-						<Col>
-							<Form.Label>Date</Form.Label>
-							<Form.Control
-								type='date'
-								name='date'
-								value={date}
-								onChange={onChange}
-							/>
-						</Col>
-						<Col>
-							<Form.Label>Give Rating to your Day</Form.Label>
+				<h2 className='centertext'>
+					{current && edit ? 'Edit Note' : 'Add Note'}
+				</h2>
+				<div className='noteform'>
+					<Form.Group>
+						<Form.Label>Heading</Form.Label>
+						<Form.Control
+							type='text'
+							name='heading'
+							value={heading}
+							onChange={onChange}
+							placeholder='enter heading'
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.Label>Content</Form.Label>
+						<Form.Control
+							as='textarea'
+							rows='10'
+							name='content'
+							value={content}
+							onChange={onChange}
+							placeholder='How was your day ???'
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.Row>
+							<Col>
+								<Form.Label>Date</Form.Label>
+								<Form.Control
+									type='date'
+									name='date'
+									value={date}
+									onChange={onChange}
+								/>
+							</Col>
+							<Col>
+								<Form.Label>Give Rating to your Day</Form.Label>
 
-							<Form.Control
-								type='number'
-								min='1'
-								max='10'
-								name='rating'
-								value={rating}
-								onChange={onChange}
-								placeholder='give rating to ur day'
-							/>
-						</Col>
-					</Form.Row>
-				</Form.Group>
-				<Button
-					variant='primary'
-					type='submit'
-					value={current != null && edit ? 'Edit Note' : 'Add Note'}
-					className='btn btn-dark'
-				>
-					I'm Done
-				</Button>
-				{/* <label>
-					heading
-					<input
-						type='text'
-						name='heading'
-						value={heading}
-						onChange={onChange}
-						placeholder='enter heading'
-					/>
-				</label>
-				<label>
-					Content
-					<input
-						type='text'
-						name='content'
-						value={content}
-						onChange={onChange}
-						placeholder='enter content'
-					/>
-				</label>
-				<label>
-					Date
-					<input type='date' name='date' value={date} onChange={onChange} />
-				</label>
-				<label>
-					rating
-					<input
-						type='number'
-						min='1'
-						max='10'
-						name='rating'
-						value={rating}
-						onChange={onChange}
-						placeholder='give rating to ur day'
-					/>
-				</label>
-				<input
-					type='submit'
-					value={current != null && edit ? 'Edit Note' : 'Add Note'}
-					className='btn btn-dark'
-				/> */}
+								<Form.Control
+									type='number'
+									min='1'
+									max='10'
+									name='rating'
+									value={rating}
+									onChange={onChange}
+									placeholder='give rating to ur day'
+								/>
+							</Col>
+						</Form.Row>
+					</Form.Group>
+					<Button
+						variant='primary'
+						type='submit'
+						value={current != null && edit ? 'Edit Note' : 'Add Note'}
+						className='btn btn-dark'
+					>
+						I'm Done
+					</Button>
+					{/* <label>
+                    heading
+                    <input
+                        type='text'
+                        name='heading'
+                        value={heading}
+                        onChange={onChange}
+                        placeholder='enter heading'
+                    />
+                </label>
+                <label>
+                    Content
+                    <input
+                        type='text'
+                        name='content'
+                        value={content}
+                        onChange={onChange}
+                        placeholder='enter content'
+                    />
+                </label>
+                <label>
+                    Date
+                    <input type='date' name='date' value={date} onChange={onChange} />
+                </label>
+                <label>
+                    rating
+                    <input
+                        type='number'
+                        min='1'
+                        max='10'
+                        name='rating'
+                        value={rating}
+                        onChange={onChange}
+                        placeholder='give rating to ur day'
+                    />
+                </label>
+                <input
+                    type='submit'
+                    value={current != null && edit ? 'Edit Note' : 'Add Note'}
+                    className='btn btn-dark'
+                /> */}
+				</div>
 			</Form>
 		</div>
 	);

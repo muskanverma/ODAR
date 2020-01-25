@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ReminderContext from '../../context/reminders/reminderContext';
 import { Form, Button, Col, Row } from 'react-bootstrap';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 const ReminderForm = () => {
 	const reminderContext = useContext(ReminderContext);
 	const { addReminder } = reminderContext;
@@ -35,30 +37,42 @@ const ReminderForm = () => {
 			d1.getMinutes();
 		return d;
 	};
+	const checkTime = time => {
+		if (time % 5 == 0) {
+			//console.log(time % 5);
+			return 1;
+		} else return 0;
+	};
 	const onSubmit = e => {
 		e.preventDefault();
-		//const d = new Date(date.slice(0,4),date.slice(5,7)-1,date.slice(8,10),time.slice(0,2),time.slice(3,5));
-		//console.log(date.substr(8,9));
-		// const d = new Date(date.substr(0,4),date.substr(6,7),date.substr(9,10));
-		// console.log(d);
+		if (checkTime(time.slice(3, 5)) == 0) {
+			alert('Time can be in intervals of 5 only');
+		} else {
+			//const d = new Date(date.slice(0,4),date.slice(5,7)-1,date.slice(8,10),time.slice(0,2),time.slice(3,5));
+			//console.log(date.substr(8,9));
+			// const d = new Date(date.substr(0,4),date.substr(6,7),date.substr(9,10));
+			// console.log(d);
 
-		//setReminder({...reminder , date: new Date(date.slice(0,4),date.slice(5,7)-1,date.slice(8,10),time.slice(0,2),time.slice(3,5))});
+			//setReminder({...reminder , date: new Date(date.slice(0,4),date.slice(5,7)-1,date.slice(8,10),time.slice(0,2),time.slice(3,5))});
 
-		const d = reminder.date + ' ' + reminder.time;
-		console.log(d);
-		//var d1 = new Date();
-		//var d = d1.getFullYear()+'-'+(d1.getMonth()+1)+'-'+d1.getDate()+' '+d1.getHours()+':'+d1.getMinutes();
-		//console.log(d);
+			const d = reminder.date + ' ' + reminder.time;
+			//console.log(d);
+			//var d1 = new Date();
+			//var d = d1.getFullYear()+'-'+(d1.getMonth()+1)+'-'+d1.getDate()+' '+d1.getHours()+':'+d1.getMinutes();
+			//console.log(d);
 
-		//console.log(dateFormat());
-		addReminder({
-			text: text,
-			date: d
-		});
-		setReminder({
-			text: '',
-			date: new Date()
-		});
+			//console.log(dateFormat());
+			addReminder({
+				text: text,
+				date: d
+			});
+			toast('Reminder Added !');
+			setReminder({
+				text: '',
+				time: null,
+				date: new Date()
+			});
+		}
 	};
 
 	return (
@@ -67,7 +81,7 @@ const ReminderForm = () => {
 				<Form.Group>
 					<Form.Label>Add a Label</Form.Label>
 					<Form.Control
-						type='email'
+						type='text'
 						name='text'
 						value={text}
 						onChange={onChange}

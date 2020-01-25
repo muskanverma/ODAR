@@ -2,12 +2,16 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReminderContext from '../../context/reminders/reminderContext';
 import '../../app.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure({ autoClose: 1200 });
 const ReminderItem = ({ reminders }) => {
 	const { _id, text, date } = reminders;
 	const reminderContext = useContext(ReminderContext);
 	const { deleteReminder } = reminderContext;
 	const onDelete = () => {
 		deleteReminder(_id);
+		toast('Reminder Deleted !');
 	};
 
 	return (
